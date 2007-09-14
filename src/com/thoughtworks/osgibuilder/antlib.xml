@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<antlib>
+   <typedef name="path" classname="com.thoughtworks.osgibuilder.Path"/>
+   <typedef name="subant" classname="com.thoughtworks.osgibuilder.SubAnt"/>
+</antlib>
