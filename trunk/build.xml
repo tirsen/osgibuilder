@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="MyTask" xmlns:ivy="antlib:fr.jayasoft.ivy.ant" basedir="." default="jar">
+
+    <target name="clean" description="Delete all generated files">
+        <delete dir="classes"/>
+        <delete file="osgibuilder.jar"/>
+    </target>
+
+    <target name="resolve" description="--> retrieve dependencies with ivy">
+        <ivy:retrieve />
+    </target>
+
+    <target name="compile" depends="resolve" description="Compiles the Task">
+        <ivy:cachepath pathid="classpath"/>
+        <mkdir dir="classes"/>
+        <javac classpathref="classpath" srcdir="src" debug="true" destdir="classes"/>
+    </target>
+
+    <target name="jar" depends="compile" description="JARs the Task">
+        <jar destfile="osgibuilder.jar" basedir="classes">
+            <fileset dir="src" excludes="**/*.java"/>
+        </jar>
+    </target>
+
+</project>
