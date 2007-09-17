@@ -7,15 +7,17 @@ public class SubAnt extends TaskHelper {
     private String target;
 
     public void execute() throws BuildException {
-        org.apache.tools.ant.taskdefs.SubAnt subant = new org.apache.tools.ant.taskdefs.SubAnt();
+        final org.apache.tools.ant.taskdefs.SubAnt subant = new org.apache.tools.ant.taskdefs.SubAnt();
         subant.setProject(getProject());
         subant.setTarget(target);
         final FileList list = new FileList();
         bundleGraph.invite(new BundleVisitor() {
             public void visit(Bundle bundle) {
-                FileList.FileName name = new FileList.FileName();
-                name.setName(bundle.getDir());
-                list.addConfiguredFile(name);
+                if (bundle.hasDir()) {
+                    FileList.FileName name = new FileList.FileName();
+                    name.setName(bundle.getDir());
+                    list.addConfiguredFile(name);
+                }
             }
         });
         subant.addFilelist(list);

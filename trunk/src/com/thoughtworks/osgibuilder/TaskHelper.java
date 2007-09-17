@@ -9,7 +9,9 @@ public class TaskHelper extends Task {
     protected BundleGraph bundleGraph = new BundleGraph();
 
     public void setManifest(File manifest) {
-        bundleGraph.setMainBundle(new ManifestParser().parse(manifest));
+        Bundle mainBundle = new ManifestParser().parse(manifest);
+        mainBundle.setDir(getProject().getBaseDir().getPath());
+        bundleGraph.setMainBundle(mainBundle);
     }
 
     public void addDependencyResolver(PatternBundleResolver resolver) {

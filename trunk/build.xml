@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="MyTask" xmlns:ivy="antlib:fr.jayasoft.ivy.ant" basedir="." default="jar">
+<project name="MyTask" xmlns:ivy="antlib:fr.jayasoft.ivy.ant" basedir="." default="test">
 
     <target name="clean" description="Delete all generated files">
         <delete dir="classes"/>
@@ -21,5 +21,20 @@
             <fileset dir="src" excludes="**/*.java"/>
         </jar>
     </target>
+	
+	<target name="test" depends="jar">
+		<mkdir dir="test-classes"/>
+        <javac classpathref="classpath" classpath="osgibuilder.jar" srcdir="test" debug="true" destdir="test-classes"/>
+		<junit printsummary="yes" haltonfailure="yes">
+			<classpath refid="classpath"/>
+			<classpath>
+				  <pathelement location="osgibuilder.jar"/>
+				  <pathelement location="test-classes"/>
+			</classpath>
+			<batchtest>
+				<fileset dir="test"/>
+			</batchtest>
+		</junit>
+	</target>
 
 </project>

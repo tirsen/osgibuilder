@@ -15,7 +15,7 @@ public class Bundle {
     }
 
     public void setClasspath(String value) {
-        this.classpath = value.split(",");
+        this.classpath = value == null ? null : value.split(",");
     }
 
     public void setDir(String dir) {
@@ -26,6 +26,9 @@ public class Bundle {
     }
 
     public String getClasspath() {
+        if (classpath == null) {
+            return "";
+        }
         StringBuffer result = new StringBuffer();
         for (int i = 0; i < classpath.length; i++) {
             String s = classpath[i];
@@ -67,9 +70,10 @@ public class Bundle {
                 // don't try to resolve empty strings, "" gets split into [""] :-(
                 if (importPackage.length() > 0 && !visited.contains(importPackage)) {
                     Bundle bundle = resolver.byPackage(importPackage);
-                    if (bundle != null) {
-                        bundle.invite(visitor, resolver, visited);
+                    if (bundle == null) {
+                        throw new RuntimeException("Could not resolve bundle for: " + importPackage);
                     }
+                    bundle.invite(visitor, resolver, visited);
                 }
             }
         }
@@ -95,5 +99,10 @@ public class Bundle {
 
     public String getDir() {
         return dir;
+    }
+
+    public boolean hasDir() {
+        // TODO Auto-generated method stub
+        return dir != null && dir.length() > 0;
     }
 }
