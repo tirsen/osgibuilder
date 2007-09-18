@@ -112,19 +112,19 @@ public class BundleGraphTest {
     public void visitsAllBundlesDepthFirstWithoutDuplicates() {
         final Bundle top = new Bundle("top");
         top.setDependencies("left,right");
-        bundleGraph.setMainBundle(top);
+        bundleGraph.addBundle(top);
 
         final Bundle left = new Bundle("left");
         left.setDependencies("bottom");
-        locator.add(left);
+        bundleGraph.addBundle(left);
 
         final Bundle right = new Bundle("right");
         right.setDependencies("bottom");
-        locator.add(right);
+        bundleGraph.addBundle(right);
 
         final Bundle bottom = new Bundle("bottom");
-        locator.add(bottom);
-
+        bundleGraph.addBundle(bottom);
+        
         final BundleVisitor visitor = context.mock(BundleVisitor.class);
         context.checking(new Expectations() {{
             one(visitor).visit(bottom);
@@ -147,7 +147,7 @@ public class BundleGraphTest {
         bundleGraph.addBundleLocator(bundleLocator);
         assertThat(bundleGraph.getClasspathAsString(), equalTo("osgi.core.jar"));
     }
-
+    
     @After
     public void tearDown() {
         context.assertIsSatisfied();

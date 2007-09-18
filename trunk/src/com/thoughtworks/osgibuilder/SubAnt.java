@@ -11,7 +11,7 @@ public class SubAnt extends TaskHelper {
         subant.setProject(getProject());
         subant.setTarget(target);
         final FileList list = new FileList();
-        bundleGraph.invite(new BundleVisitor() {
+        getBundleGraph().invite(new BundleVisitor() {
             public void visit(Bundle bundle) {
                 if (bundle.hasDir()) {
                     FileList.FileName name = new FileList.FileName();

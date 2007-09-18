@@ -49,7 +49,7 @@ public class PatternBundleResolver implements BundleResolver {
         return null;
     }
 
-    private String evaluate(String pattern, String name) {
+    public static String evaluate(String pattern, String name) {
         return pattern.replaceAll("\\{" + ManifestParser.BUNDLE_SYMBOLIC_NAME + "\\}", name);
     }
 }
