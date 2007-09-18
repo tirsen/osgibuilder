@@ -2,4 +2,5 @@
 <antlib>
    <typedef name="path" classname="com.thoughtworks.osgibuilder.Path"/>
    <typedef name="subant" classname="com.thoughtworks.osgibuilder.SubAnt"/>
+   <typedef name="resolvers" classname="com.thoughtworks.osgibuilder.Resolvers"/>
 </antlib>

@@ -1,13 +1,20 @@
 package com.thoughtworks.osgibuilder;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public class BundleGraph {
+    private Set<Bundle> bundles = new HashSet<Bundle>();
     private Bundle mainBundle;
-    private CompositeBundleResolver locator = new CompositeBundleResolver();
+    private CompositeBundleResolver resolver = new CompositeBundleResolver();
+    private MapBundleResolver mapBundleResolver = new MapBundleResolver();
 
+    public BundleGraph() {
+        resolver.addBundleLocator(mapBundleResolver);
+    }
+    
     public void addBundleLocator(BundleResolver resolver) {
-        this.locator.addBundleLocator(resolver);
+        this.resolver.addBundleLocator(resolver);
     }
 
     public String getBundleNames() {
@@ -23,8 +30,14 @@ public class BundleGraph {
 
     public void setMainBundle(Bundle mainBundle) {
         this.mainBundle = mainBundle;
+        addBundle(mainBundle);
     }
 
+    public void addBundle(Bundle bundle) {
+        this.bundles.add(bundle);
+        mapBundleResolver.add(bundle);
+    }
+    
     public String getClasspathAsString() {
         final StringBuffer result = new StringBuffer();
         invite(new BundleVisitor() {
@@ -43,6 +56,12 @@ public class BundleGraph {
     }
 
     public void invite(BundleVisitor visitor) {
-        mainBundle.invite(visitor, locator, new HashSet<String>());
+        Set<String> visited = new HashSet<String>();
+        for(Bundle bundle : bundles) {
+            if (!visited.contains(bundle.getName())) {
+                visited.add(bundle.getName());
+                bundle.invite(visitor, resolver, visited);
+            }
+        }
     }
 }
