@@ -3,7 +3,7 @@ package com.thoughtworks.osgibuilder;
 import java.util.Map;
 import java.util.HashMap;
 
-class MapBundleResolver implements BundleResolver {
+public class MapBundleResolver implements BundleResolver {
     private Map<String, Bundle> bundles = new HashMap<String, Bundle>();
 
     public Bundle byName(String name) {
