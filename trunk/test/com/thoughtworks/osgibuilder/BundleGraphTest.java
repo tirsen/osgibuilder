@@ -11,13 +11,10 @@ import org.junit.Test;
 public class BundleGraphTest {
     private JUnit4Mockery context = new JUnit4Mockery();
     private BundleGraph bundleGraph;
-    private MapBundleResolver locator;
 
     @Before
     public void setUp() {
         bundleGraph = new BundleGraph();
-        locator = new MapBundleResolver();
-        bundleGraph.addBundleLocator(locator);
     }
 
     @Test
@@ -44,7 +41,7 @@ public class BundleGraphTest {
         depBundle.setDir("../dep");
         depBundle.setClasspath("lib/depjar1.jar,lib/depjar2.jar");
         bundleGraph.setMainBundle(mainBundle);
-        locator.add(depBundle);
+        bundleGraph.addBundle(depBundle);
         assertThat(bundleGraph.getClasspathAsString(),
                 equalTo("../dep/lib/depjar1.jar:../dep/lib/depjar2.jar:" +
                         "../dep/bin/dep.jar:" +
@@ -139,12 +136,10 @@ public class BundleGraphTest {
     public void resolvesPackages() {
         Bundle mainBundle = new Bundle("main");
         mainBundle.setImportPackages("org.osgi.framework;version=\"1.3.0\"");
-        MapBundleResolver bundleLocator = new MapBundleResolver();
         Bundle depBundle = new Bundle("org.osgi.framework;version=\"1.3.0\"");
         depBundle.setJarFile("osgi.core.jar");
-        bundleLocator.add(depBundle);
+        bundleGraph.addBundle(depBundle);
         bundleGraph.setMainBundle(mainBundle);
-        bundleGraph.addBundleLocator(bundleLocator);
         assertThat(bundleGraph.getClasspathAsString(), equalTo("osgi.core.jar"));
     }
     

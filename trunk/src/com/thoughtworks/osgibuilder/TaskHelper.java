@@ -14,6 +14,7 @@ public class TaskHelper extends Task {
     private List<ManifestFileSet> manifests = new LinkedList<ManifestFileSet>();
     private List<Resolvers> resolvers = new LinkedList<Resolvers>();
 
+    
     public BundleGraph getBundleGraph() {
         for (Resolvers resolvers : this.resolvers) {
             if (resolvers.isReference()) {
@@ -27,7 +28,7 @@ public class TaskHelper extends Task {
             for (Iterator iterator = fileSet.iterator(); iterator.hasNext();) {
                 FileResource manifest = (FileResource) iterator.next();
                 Bundle bundle = parseManifest(manifest.getFile());
-                bundle.setDir(new File(fileSet.getDir(), PatternBundleResolver.evaluate(fileSet.getBundleDir(), bundle.getName())).getPath());
+                bundle.setDir(new File(fileSet.getBundleDir(), PatternBundleResolver.evaluate(fileSet.getBundleDir(), bundle.getName())).getPath());
                 bundleGraph.addBundle(bundle);
             }
         }

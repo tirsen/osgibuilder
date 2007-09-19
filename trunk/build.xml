@@ -3,6 +3,7 @@
 
     <target name="clean" description="Delete all generated files">
         <delete dir="classes"/>
+        <delete dir="test-classes"/>
         <delete file="osgibuilder.jar"/>
     </target>
 
@@ -31,6 +32,7 @@
 				  <pathelement location="osgibuilder.jar"/>
 				  <pathelement location="test-classes"/>
 			</classpath>
+			<formatter type="plain" usefile="false"/>
 			<batchtest>
 				<fileset dir="test"/>
 			</batchtest>
