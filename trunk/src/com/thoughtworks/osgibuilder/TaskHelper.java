@@ -28,7 +28,15 @@ public class TaskHelper extends Task {
             for (Iterator iterator = fileSet.iterator(); iterator.hasNext();) {
                 FileResource manifest = (FileResource) iterator.next();
                 Bundle bundle = parseManifest(manifest.getFile());
-                bundle.setDir(new File(fileSet.getBundleDir(), PatternBundleResolver.evaluate(fileSet.getBundleDir(), bundle.getName())).getPath());
+                String bundleDir = fileSet.getBundleDir();
+                if (bundleDir == null) {
+                    throw new RuntimeException("Need to specify 'bundledir' option");
+                }
+                bundleDir = PatternBundleResolver.evaluate(bundleDir, bundle.getName());
+                if (fileSet.getDir() != null) {
+                    bundleDir = new File(fileSet.getDir(), bundleDir).getPath();
+                }
+                bundle.setDir(bundleDir);
                 bundleGraph.addBundle(bundle);
             }
         }
