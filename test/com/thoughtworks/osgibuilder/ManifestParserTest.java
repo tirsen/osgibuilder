@@ -1,9 +1,10 @@
 package com.thoughtworks.osgibuilder;
 
-import org.junit.Test;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
-import static org.hamcrest.CoreMatchers.*;
+
 import org.apache.tools.ant.filters.StringInputStream;
+import org.junit.Test;
 
 public class ManifestParserTest {
     @Test
