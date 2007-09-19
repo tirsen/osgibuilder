@@ -50,6 +50,9 @@ public class PatternBundleResolver implements BundleResolver {
     }
 
     public static String evaluate(String pattern, String name) {
+        if (name == null) {
+            throw new RuntimeException("Bundle name is not available");
+        }
         return pattern.replaceAll("\\{" + ManifestParser.BUNDLE_SYMBOLIC_NAME + "\\}", name);
     }
 }
