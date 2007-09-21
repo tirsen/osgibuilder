@@ -36,6 +36,9 @@ public class PatternBundleResolver implements BundleResolver {
             throw new BuildException("'manifest' must be set on dependencyresolver");
         }
         File dir = project.resolveFile(evaluate(this.dir, name));
+        if (!dir.exists()) {
+            return null;
+        }
         File manifest = new File(dir, evaluate(this.manifest, name));
         Bundle bundle = manifestParser.parse(manifest);
         bundle.setDir(dir.getPath());

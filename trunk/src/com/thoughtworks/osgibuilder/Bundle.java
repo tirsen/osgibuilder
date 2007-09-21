@@ -61,7 +61,11 @@ public class Bundle {
             for (String dependency : dependencies.split(",")) {
                 // don't try to resolve empty strings, "" gets split into [""] :-(
                 if (dependency.length() > 0 && !visited.contains(dependency)) {
-                    resolver.byName(dependency).invite(visitor, resolver, visited);
+                    Bundle bundle = resolver.byName(dependency);
+                    if (bundle == null) {
+                        throw new RuntimeException("Could not resolve bundle for: " + dependency);
+                    }
+                    bundle.invite(visitor, resolver, visited);
                 }
             }
         }
