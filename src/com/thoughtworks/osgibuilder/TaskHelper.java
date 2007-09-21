@@ -21,7 +21,7 @@ public class TaskHelper extends Task {
                 resolvers = (Resolvers) resolvers.getRefid().getReferencedObject();
             }
             for (BundleResolver resolver : resolvers.getPackageResolvers()) {
-                addPackageResolver((PackageBundleResolver) resolver);
+                addNamedResolver((NamedBundleResolver) resolver);
             }
         }
         for (ManifestFileSet fileSet : manifests) {
@@ -62,7 +62,7 @@ public class TaskHelper extends Task {
         bundleGraph.addBundleLocator(resolver);
     }
 
-    public void addPackageResolver(PackageBundleResolver resolver) {
+    public void addNamedResolver(NamedBundleResolver resolver) {
         bundleGraph.addBundleLocator(resolver);
     }
     

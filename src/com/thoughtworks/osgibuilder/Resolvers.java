@@ -44,7 +44,11 @@ import org.apache.tools.ant.types.DataType;
 public class Resolvers extends DataType {
     private List<BundleResolver> resolvers = new LinkedList<BundleResolver>();
     
-    public void addPackageResolver(PackageBundleResolver resolver) {
+    public void addNamedResolver(NamedBundleResolver resolver) {
+        resolvers.add(resolver);
+    }
+    
+    public void addBundleResolver(PatternBundleResolver resolver) {
         resolvers.add(resolver);
     }
     

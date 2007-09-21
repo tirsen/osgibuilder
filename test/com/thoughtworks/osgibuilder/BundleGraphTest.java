@@ -49,6 +49,27 @@ public class BundleGraphTest {
     }
 
     @Test
+    public void ignoredPackageDoesNotContributeToClasspath() {
+        Bundle mainBundle = new Bundle("main");
+        mainBundle.setImportPackages("dep,dep2");
+        mainBundle.setDependencies("dep3");
+        bundleGraph.setMainBundle(mainBundle);
+        NamedBundleResolver resolver = new NamedBundleResolver();
+        resolver.setName("dep");
+        resolver.setIgnore(true);
+        bundleGraph.addBundleLocator(resolver);
+        NamedBundleResolver resolver2 = new NamedBundleResolver();
+        resolver2.setName("dep2");
+        resolver2.setJarfile("dep2");
+        bundleGraph.addBundleLocator(resolver2);
+        NamedBundleResolver resolver3 = new NamedBundleResolver();
+        resolver3.setName("dep3");
+        resolver3.setIgnore(true);
+        bundleGraph.addBundleLocator(resolver3);
+        assertThat(bundleGraph.getClasspathAsString(), equalTo("dep2"));
+    }
+
+    @Test
     public void addsAllDependantBundlesWhenSettingMainBundle() {
         Bundle mainBundle = new Bundle("main");
         mainBundle.setDependencies("dep1,dep2,dep3");
