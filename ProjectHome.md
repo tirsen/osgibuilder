@@ -1,0 +1,1 @@
+An Ant task that simplifies building a set of OSGi bundles. Given an OSGi bundle manifest it navigates the closure of transitive dependencies, executes arbitrary Ant targets on each dependent bundle and builds up a complete classpath of all dependencies.
